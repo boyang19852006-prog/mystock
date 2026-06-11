@@ -1,4 +1,6 @@
 import requests, json, re, os, time
+from PIL import Image
+from io import BytesIO
 from bs4 import BeautifulSoup
 
 # ========== 配置区 ==========
@@ -109,19 +111,18 @@ if __name__ == "__main__":
         if sell_price is None:
             continue
 
-        img_name = ""
+                img_name = ""
         if p["image"]:
             try:
-                ext = p["image"].rsplit(".", 1)[-1].split("?")[0]
-                if ext not in ["jpg","jpeg","png","gif","webp"]:
-                    ext = "jpg"
-                img_name = f"img_{abs(hash(p['name']))}.{ext}"
+                img_name = f"img_{abs(hash(p['name']))}.jpg"
                 img_path = f"images/{img_name}"
                 if not os.path.exists(img_path):
                     r = session.get(p["image"], timeout=15)
                     if r.status_code == 200:
-                        with open(img_path, "wb") as f:
-                            f.write(r.content)
+                        img = Image.open(BytesIO(r.content))
+                        img = img.convert("RGB")
+                        img.thumbnail((300, 300), Image.LANCZOS)
+                        img.save(img_path, "JPEG", quality=75, optimize=True)
             except:
                 img_name = ""
 
