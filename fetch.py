@@ -1,7 +1,5 @@
 import requests, json, re, os, time
 from bs4 import BeautifulSoup
-from PIL import Image
-from io import BytesIO
 
 # ========== 配置区 ==========
 BASE_URL = "http://www.qiange99.com"
@@ -104,33 +102,17 @@ if __name__ == "__main__":
     print(f"共抓取 {len(products)} 个商品")
 
     output = []
-    os.makedirs("images", exist_ok=True)
 
     for p in products:
         sell_price = calc_sell_price(p["fan_price"])
         if sell_price is None:
             continue
 
-        img_name = ""
-        if p["image"]:
-            try:
-                img_name = f"img_{abs(hash(p['name']))}.jpg"
-                img_path = f"images/{img_name}"
-                if not os.path.exists(img_path):
-                    r = session.get(p["image"], timeout=15)
-                    if r.status_code == 200:
-                        img = Image.open(BytesIO(r.content))
-                        img = img.convert("RGB")
-                        img.thumbnail((300, 300), Image.LANCZOS)
-                        img.save(img_path, "JPEG", quality=75, optimize=True)
-            except:
-                img_name = ""
-
         output.append({
             "name": p["name"],
             "stock": p["stock"],
             "price": round(sell_price, 2),
-            "image": f"images/{img_name}" if img_name else ""
+            "image": p["image"] if p["image"] else ""
         })
 
     with open("data.json", "w", encoding="utf-8") as f:
