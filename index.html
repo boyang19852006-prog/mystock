@@ -64,7 +64,7 @@
             }
             container.innerHTML = list.map(p => {
                 const cls = p.stock.includes('充足') ? 'stock-充足' : p.stock.includes('紧张') ? 'stock-紧张' : 'stock-暂缺';
-                const img = p.image || 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="%23ddd"><rect width="100" height="100"/><text x="50" y="55" text-anchor="middle" fill="%23999" font-size="14">暂无图片</text></svg>';
+                const img = p.image || '';
                 return `<div class="product-card"><img src="${img}" alt="${p.name}" onerror="this.style.display='none'"><div class="product-info"><div class="product-name">${p.name}</div><div class="product-stock ${cls}">库存：${p.stock}</div><div class="product-price">¥${p.price.toFixed(2)}</div></div></div>`;
             }).join('');
         }
