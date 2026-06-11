@@ -71,7 +71,7 @@
             container.innerHTML = list.map(p => {
                 const cls = p.stock.includes('充足') ? 'stock-充足' : p.stock.includes('紧张') ? 'stock-紧张' : 'stock-暂缺';
                 const img = p.image || '';
-                return `<div class="product-card"><img src="${img}" alt="${p.name}" onerror="this.style.display='none'"><div class="product-info"><div class="product-name">${p.name}</div><div class="product-stock ${cls}">库存：${p.stock}</div><div class="product-price">¥${p.price.toFixed(2)}</div></div></div>`;
+                return `<div class="product-card"><img src="${img}" alt="${p.name}" referrerpolicy="no-referrer" onerror="this.style.display='none'">><div class="product-info"><div class="product-name">${p.name}</div><div class="product-stock ${cls}">库存：${p.stock}</div><div class="product-price">¥${p.price.toFixed(2)}</div></div></div>`;
             }).join('');
         }
     </script>
