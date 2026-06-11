@@ -57,8 +57,10 @@
         });
 
         function renderProducts(list) {
-            const container = document.getElementById('resultList');
-            if (list.length === 0) {
+    // 过滤掉暂缺的商品
+    list = list.filter(p => !p.stock.includes('暂缺'));
+    const container = document.getElementById('resultList');
+    if (list.length === 0) {
                 container.innerHTML = '<div class="no-result">未找到相关商品</div>';
                 return;
             }
