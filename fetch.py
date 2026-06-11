@@ -21,8 +21,12 @@ def fetch_all_products():
     
     while (page - 1) * 20 < total:
         payload = {"key": "", "cate": "", "instock": "0", "price": "0"}
-        resp = session.post(f"{SEARCHMORE_URL}/{page}", data=payload, timeout=30)
-        data = resp.json()
+                resp = session.post(f"{SEARCHMORE_URL}/{page}", data=payload, timeout=30)
+        raw = resp.json()
+        if isinstance(raw, str):
+            data = json.loads(raw)
+        else:
+            data = raw
         
         html = data["html"]
         if page == 1:
