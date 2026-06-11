@@ -1,7 +1,7 @@
 import requests, json, re, os, time
+from bs4 import BeautifulSoup
 from PIL import Image
 from io import BytesIO
-from bs4 import BeautifulSoup
 
 # ========== 配置区 ==========
 BASE_URL = "http://www.qiange99.com"
@@ -111,7 +111,7 @@ if __name__ == "__main__":
         if sell_price is None:
             continue
 
-                img_name = ""
+        img_name = ""
         if p["image"]:
             try:
                 img_name = f"img_{abs(hash(p['name']))}.jpg"
