@@ -14,7 +14,10 @@ jobs:
         with:
           python-version: '3.11'
       - run: pip install requests beautifulsoup4
-      - run: python fetch.py
+            - run: python fetch.py
+        env:
+          UPSTREAM_URL: ${{ secrets.UPSTREAM_URL }}
+          PRICE_RULES: ${{ secrets.PRICE_RULES }}
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: 自动更新库存数据
