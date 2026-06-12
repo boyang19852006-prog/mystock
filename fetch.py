@@ -2,7 +2,7 @@ import requests, json, re, os, time
 from bs4 import BeautifulSoup
 
 # ========== 配置区 ==========
-BASE_URL = "http://www.qiange99.com"
+BASE_URL = os.environ.get("UPSTREAM_URL", "http://localhost")
 SEARCHMORE_URL = BASE_URL + "/site/price/searchmore"
 
 HEADERS = {
