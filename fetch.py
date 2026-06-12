@@ -79,21 +79,17 @@ def fetch_all_products():
 def calc_sell_price(fan_price):
     if fan_price >= 1500:
         return None
-    if fan_price < 90:
-        return fan_price + 5
-    if fan_price < 180:
-        return fan_price + 10
-    if fan_price < 290:
-        return fan_price + 20
-    if fan_price < 390:
-        return fan_price + 26
-    if fan_price < 500:
-        return fan_price + 34
-    if fan_price < 600:
-        return fan_price + 40
-    if fan_price < 700:
-        return fan_price + 50
-    return fan_price + 50 + ((fan_price - 600) // 100) * 10
+    rules_str = os.environ.get("PRICE_RULES", "")
+    rules = []
+    for r in rules_str.split(";"):
+        if r:
+            limit, add = r.split(",")
+            rules.append((float(limit), float(add)))
+    for limit, add in rules:
+        if fan_price < limit:
+            return fan_price + add
+    last_limit, last_add = rules[-1]
+    return fan_price + last_add + ((fan_price - (last_limit - 10)) // 100) * 10
 
 # ========== 主流程 ==========
 if __name__ == "__main__":
