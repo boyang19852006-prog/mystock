@@ -99,9 +99,11 @@ if __name__ == "__main__":
 
     output = []
 
-    for p in products:
+            for p in products:
         sell_price = calc_sell_price(p["fan_price"])
         if sell_price is None:
+            continue
+        if p["fan_price"] < 7:
             continue
 
         output.append({
